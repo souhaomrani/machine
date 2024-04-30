@@ -17,7 +17,7 @@ provider "proxmox" {
 resource "proxmox_vm_qemu" "ubuntu_vm" {
   name        = "ubuntu_vm"
   target_node = var.target_node
-  template    = "vztmpl/${var.template}"
+  template    = "ubuntu.robert.local"
   memory      = 2048
   cores       = 2
 
