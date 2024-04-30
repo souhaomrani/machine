@@ -13,7 +13,7 @@ provider "proxmox" {
   pm_tls_insecure    = true  # Ajustez cette option en fonction de votre configuration de sécurité
 }
 resource "proxmox_virtual_machine" "ubuntu_vm" {
-  name         = "ubuntu.robert.local"
+  name         = "ubuntu_vm"
   node         = var.proxmox_node
   template     = "local:vztmpl/ubuntu-20.04-server-cloudimg-amd64"
   memory       = 2048
