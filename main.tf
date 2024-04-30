@@ -15,19 +15,20 @@ provider "proxmox" {
 }
 
 resource "proxmox_vm_qemu" "ubuntu_vm" {
-  name         = "ubuntu_vm"
-  node         = var.proxmox_node
-  template     = "vztmpl/ubuntu-20.04-server-cloudimg-amd64"  # Spécifier le template directement
-  memory       = 2048
-  cores        = 2
+  name     = "ubuntu_vm"
+  # Spécifiez le template directement
+  template = "vztmpl/ubuntu-20.04-server-cloudimg-amd64"
+
+  memory = 2048
+  cores  = 2
 
   network {
-    model   = "virtio"
-    bridge  = "vmbr0"
+    model  = "virtio"
+    bridge = "vmbr0"
   }
 
   scsihw = "virtio-scsi-pci"
   agent  = 1  # Utilisez 1 pour activer l'agent QEMU
 
-  # Pas de cloudinit ni de tags
+  # Pas d'argument 'node', 'cloudinit' ou 'tags'
 }
