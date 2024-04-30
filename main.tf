@@ -15,9 +15,9 @@ provider "proxmox" {
 }
 
 resource "proxmox_vm_qemu" "ubuntu_vm" {
-  name     = "ubuntu_vm"
-  template = "ubuntu.robert.local"
-
+  name            = "ubuntu-vm"
+  clone           = var.template
+  target_node     = "pve"
   memory = 2048
   cores  = 2
 
