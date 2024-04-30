@@ -79,7 +79,7 @@ variable "disk" {
   })
   default = {
     storage = "local"
-    size = 10
+    size = 20
   }
 }
 
