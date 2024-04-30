@@ -4,83 +4,23 @@ provider "proxmox" {
   pm_api_token_secret = "faf0b3f2-8df5-48ec-b726-6fadc60aa5d1"
   pm_tls_insecure    = true  # Ajustez cette option en fonction de votre configuration de sécurité
 }
-
-data "proxmox_virtual_environment_vms" "template" {
-  node_name = "pve"
-  tags      = ["template", "test"]  # Remplacez "test" par vos propres tags de template
-}
-
-resource "proxmox_virtual_environment_file" "cloud_user_config" {
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "pve"
-
-  source_raw {
-    data      = file("cloud-init/user_data")  # Assurez-vous que le chemin du fichier cloud-init est correct
-    file_name = "ubuntu.${var.domain}-ci-user.yml"  # Remplacez "ubuntu" et "${var.domain}" par vos valeurs spécifiques
-  }
-}
-
-resource "proxmox_virtual_environment_file" "cloud_meta_config" {
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "pve"
-
-  source_raw {
-    data      = templatefile("cloud-init/meta_data.tpl", { instance_id = sha1(var.vm_hostname), local_hostname = var.vm_hostname })
-    file_name = "ubuntu.${var.domain}-ci-meta_data.yml"  # Remplacez "ubuntu" et "${var.domain}" par vos valeurs spécifiques
-  }
-}
-
-resource "proxmox_virtual_environment_vm" "vm" {
-  name      = "ubuntu.${var.domain}"
-  node_name = "pve"
-
-  on_boot = true  # Démarre automatiquement la VM après le déploiement
-
-  agent {
-    enabled = true
-  }
-
-  tags = ["test"]  # Remplacez "test" par vos propres tags pour la VM
-
-  cpu {
-    type    = "x86-64-v2-AES"
-    cores   = 2
-    sockets = 1
-    flags   = []
-  }
-
-  memory {
-    dedicated = 2048  # Taille de la mémoire en Mo
-  }
-
-  network_device {
-    bridge  = "vmbr0"
+resource "proxmox_virtual_machine" "ubuntu_vm" {
+  name         = "ubuntu.robert.local"
+  node         = var.proxmox_node
+  template     = "local:vztmpl/ubuntu-20.04-server-cloudimg-amd64"
+  memory       = 2048
+  cores        = 2
+  network {
     model   = "virtio"
+    bridge  = "vmbr0"
   }
-
-  lifecycle {
-    ignore_changes = [
-      network_device,
-    ]
-  }
-
-  boot_order    = ["scsi0"]
-  scsi_hardware = "virtio-scsi-single"
-
-  disk {
-    interface    = "scsi0"
-    iothread     = true
-    datastore_id = "local"
-    size         =   20  # Taille du disque en Go
-    discard      = "ignore"
-  }
-
-  initialization {
-    datastore_id         = "local"
-    interface            = "ide2"
-    user_data_file_id    = proxmox_virtual_environment_file.cloud_user_config.id
-    meta_data_file_id    = proxmox_virtual_environment_file.cloud_meta_config.id
-  }
+  scsihw       = "virtio-scsi-pci"
+  agent        = 1
+  ipconfig0    = "dhcp"
+  ide2         = "local:cloudinit"
+  tags         = ["template", "test"]
 }
+
+
+
+ 
