@@ -8,31 +8,26 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url         = var.pm_api_url
-  pm_api_token_id    = var.pm_user
-  pm_api_token_secret = var.pm_password
+  pm_api_url         = "https://192.168.127.134:8006/api2/json"
+  pm_api_token_id    = "root@pam!souhasouha"
+  pm_api_token_secret = "faf0b3f2-8df5-48ec-b726-6fadc60aa5d1"
   pm_tls_insecure    = true  # Ajustez cette option en fonction de votre configuration de sécurité
 }
 
 resource "proxmox_vm_qemu" "ubuntu_vm" {
-  name        = "ubuntu_vm"
-  target_node = var.target_node
-  template    = "ubuntu.robert.local"
-  memory      = 2048
-  cores       = 2
+  name         = "ubuntu_vm"
+  node         = var.proxmox_node
+  template     = "vztmpl/ubuntu-20.04-server-cloudimg-amd64"  # Spécifier le template directement
+  memory       = 2048
+  cores        = 2
 
   network {
-    model  = "virtio"
-    bridge = "vmbr0"
+    model   = "virtio"
+    bridge  = "vmbr0"
   }
 
   scsihw = "virtio-scsi-pci"
-  agent  = true  # Utilisez true pour activer l'agent QEMU
+  agent  = 1  # Utilisez 1 pour activer l'agent QEMU
 
-  # Utilisation de "cloudinit" pour spécifier le chemin vers le cloud-init
-  cloudinit = "local:cloudinit"
-
-  # Tags pour identifier la VM
-  tags = ["template", "test"]
+  # Pas de cloudinit ni de tags
 }
-
