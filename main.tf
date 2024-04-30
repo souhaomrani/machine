@@ -12,7 +12,7 @@ provider "proxmox" {
   pm_api_token_secret = "faf0b3f2-8df5-48ec-b726-6fadc60aa5d1"
   pm_tls_insecure    = true  # Ajustez cette option en fonction de votre configuration de sécurité
 }
-resource "proxmox_virtual_machine" "ubuntu_vm" {
+resource "proxmox_vm_qemu" "ubuntu_vm" {
   name         = "ubuntu_vm"
   node         = var.proxmox_node
   template     = "local:vztmpl/ubuntu-20.04-server-cloudimg-amd64"
