@@ -33,7 +33,7 @@ pipeline {
         stage('Terraform Plan') {
             steps {
                 // Plan Terraform changes
-               sh 'terraform plan -var="template=exemple" -out=tfplan'
+               sh 'terraform plan -var="template=ubuntu.robert.local" -out=tfplan'
             }
         }
         stage('Terraform Apply') {
