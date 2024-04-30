@@ -15,13 +15,12 @@ provider "proxmox" {
 }
 
 resource "proxmox_vm_qemu" "ubuntu_vm" {
-  name     = "ubuntu_vm"
-  # Spécifiez le template directement
-  template = "vztmpl/ubuntu-20.04-server-cloudimg-amd64"
-
+  name            = "ubuntu-vm"
+  clone           = var.template
+  target_node     = "pve"
   memory = 2048
   cores  = 2
-
+}
   network {
     model  = "virtio"
     bridge = "vmbr0"
