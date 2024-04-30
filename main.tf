@@ -15,25 +15,26 @@ provider "proxmox" {
 }
 
 resource "proxmox_vm_qemu" "ubuntu_vm" {
-  name            = "ubuntu-vm"
-  clone           = var.template
-  target_node     = "pve"
-  memory = 2048
-  cores  = 2
+  name        = "ubuntu-vm"
+  clone       = var.template
+  target_node = "pve"
+  memory      = 2048
+  cores       = 2
 
   network {
     model  = "virtio"
     bridge = "vmbr0"
   }
-disk {
-    id            = 0
-    storage       = "local"
-    size          = "20G"
-    type          = "scsi"
-    iothread      = true
-    storage_type  = "raw"
-    filename      = "local-lvm:vm-100-disk-0"
-    iso           = "/var/lib/vz/template/iso/ubuntu-20.04-server-cloudimg-amd64.img"
+
+  disk {
+    id           = 0
+    storage      = "local"
+    size         = "20G"
+    type         = "scsi"
+    iothread     = 1  # Activer iothread (1) ou le désactiver (0)
+    storage_type = "raw"
+    filename     = "local-lvm:vm-100-disk-0"
   }
 }
+
 
