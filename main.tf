@@ -16,7 +16,7 @@ provider "proxmox" {
 
 resource "proxmox_vm_qemu" "ubuntu_vm" {
   name     = "ubuntu_vm"
-  template = "vztmpl/ubuntu-20.04-server-cloudimg-amd64"
+  template = "ubuntu.robert.local"
 
   memory = 2048
   cores  = 2
