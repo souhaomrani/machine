@@ -6,7 +6,8 @@ users:
   - name: ubuntu
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_authorized_keys:
-      - ssh-ed25519 YOUR_PUBLIC_SSH_KEY_HERE
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCihh5OLEyE2js4mVnBpr3vDEaM/cgkudPAD56Q+PTt/UFjJ6yXg7ImMQxQmspbmwLnul1RjEtB+2Pmf+cnR0UMuUVR5KadPxsrcBN9FG0I3ZKL9EK2JOMi4RaTnaRLgBKee+pwMNYjw0zY/CKxShyCgT4X9pbzeOxK5NdHPCMRKF0YKDzNl+SXOwwYEQr3OkwhVubjWSeZzPCryCNan6yXbufFiuvBcHZk15ijBXqw03AEcyleh26LZaXN9/pusAWcpyA/+oOt2c6jPE9Scp+n/s/HHXz7YiXCOvarf4RDbuHHHT2L5r1l3uO/wzTKs3fX9Iv30SguDDhQ8TQoFjAj root@pve
+
 chpasswd:
   list: |
     ubuntu:stephane
