@@ -1,7 +1,5 @@
 # providers.tf or main.tf, naming is up to you
 terraform {
-  backend "http" {
-  }
   required_providers {
     proxmox = {
       source  = "Telmate/proxmox"
