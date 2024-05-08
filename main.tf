@@ -1,4 +1,7 @@
+# providers.tf or main.tf, naming is up to you
 terraform {
+  backend "http" {
+  }
   required_providers {
     proxmox = {
       source  = "Telmate/proxmox"
@@ -14,22 +17,20 @@ provider "proxmox" {
 }
 
 resource "proxmox_vm_qemu" "terraform-test" {
-  name         = "ubuntu.robert.local"  # Nom de la machine virtuelle
-  target_node  = "pve"                  # Noeud Proxmox sur lequel déployer la machine virtuelle
-  clone        = "9999"       # Modèle à cloner pour la machine virtuelle
-  memory       = 2048                   # Mémoire assignée à la machine virtuelle (en Mo)
-  cores        = 2                      # Nombre de cœurs de processeur assignés à la machine virtuelle
+  target_node  = "pve"                    # Hôte Proxmox sur lequel créer la machine virtuelle
+  hostname     = "terraform-test"         # Nom de la machine virtuelle
+  ostemplate   = "local:vztmpl/almalinux-9-default_20221108_amd64.tar.xz"  # Chemin vers le modèle de la machine virtuelle
+  password     = "terraform"              # Mot de passe de la machine virtuelle
+  unprivileged = true                     # Exécuter le processus de la machine virtuelle sans privilèges
 
-  network {
-    model  = "virtio"                   # Modèle de carte réseau
-    bridge = "vmbr0"                    # Pont réseau associé
+  rootfs {
+    storage = "local-lvm"   # Stockage pour le système de fichiers racine de la machine virtuelle
+    size    = "5G"          # Taille du système de fichiers racine
   }
 
-  disk {
-    id           = 0                     # ID du disque
-    storage      = "local-lvm"           # Stockage pour le disque
-    size         = "20G"                 # Taille du disque principal
-    type         = "scsi"                # Type de contrôleur de disque
-    filename     = "local:9999/vm-9999-cloudinit.qcow2"  # Chemin vers le disque cloud-init
+  network {
+    name   = "eth0"     # Nom de l'interface réseau dans la machine virtuelle
+    bridge = "vmbr0"    # Pont réseau associé
+    ip     = "dhcp"     # Attribution IP via DHCP
   }
 }
