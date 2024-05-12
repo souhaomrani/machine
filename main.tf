@@ -17,7 +17,7 @@ provider "proxmox" {
 resource "proxmox_vm_qemu" "terraform-test" {
   target_node  = var.target_node
   hostname     = "terraform-test"
-  ostemplate   = "local:vztmpl/almalinux-9-default_20221108_amd64.tar.xz"
+  ostemplate   = "local:9999/vm-9999-cloudinit.qcow2"
   password     = "terraform"
   unprivileged = true
 
