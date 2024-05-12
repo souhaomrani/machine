@@ -14,29 +14,27 @@ provider "proxmox" {
   pm_user     = var.pm_user
   pm_password = var.pm_password
 }
+# Création de la machine virtuelle
 resource "proxmox_vm_qemu" "terraform-test" {
   target_node = var.target_node
   vmid        = 9999
   name        = var.template
   os_type     = "ubuntu"
-  clone       = true
-  full_clone  = false
-
+  
+  # Configuration du disque
   disk {
     storage = "local-lvm"
-    type    = "virtio"
-    size    = "20G"
+    size    = "10G"
   }
-
+  
+  # Configuration du réseau
   network {
     model  = "virtio"
     bridge = "vmbr0"
-
-    # Configuration de l'interface réseau avec une adresse IP statique
-    ip_address = "192.168.1.100"   # Adresse IP statique que vous souhaitez attribuer
-    netmask    = "255.255.255.0"   # Masque de sous-réseau correspondant
-    gateway    = "192.168.1.1"     # Passerelle par défaut pour cette interface
+    ip     = "192.168.1.100"    # Adresse IP statique à attribuer à la machine virtuelle
+    netmask = "255.255.255.0"   # Masque de sous-réseau correspondant
+    gateway = "192.168.1.1"     # Passerelle par défaut pour cette interface
   }
-
-  # Autres configurations de la machine virtuelle
+  
+  # Spécifiez d'autres configurations de la machine virtuelle si nécessaire
 }
