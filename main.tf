@@ -15,7 +15,6 @@ provider "proxmox" {
   pm_password = var.pm_password
 }
 
-# Déclaration de la ressource Proxmox VM QEMU (machine virtuelle)
 resource "proxmox_vm_qemu" "terraform-test" {
   target_node = var.target_node
   vmid        = 9999
@@ -23,12 +22,18 @@ resource "proxmox_vm_qemu" "terraform-test" {
   os_type     = "ubuntu"
   clone       = true
   full_clone  = false
+
   disk {
     storage = "local-lvm"
+    type    = "virtio"  # Ajoutez le type de disque (par exemple, virtio)
+    size    = "20G"     # Ajoutez la taille du disque (par exemple, 20G)
   }
 
   network {
     model  = "virtio"
     bridge = "vmbr0"
   }
+
+  # Spécifiez d'autres configurations de la machine virtuelle si nécessaire
 }
+
