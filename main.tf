@@ -1,4 +1,3 @@
-# providers.tf or main.tf, naming is up to you
 terraform {
   required_providers {
     proxmox = {
@@ -9,16 +8,16 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url     = var.pm_api_url
-  pm_user        = var.pm_user
-  pm_password    = var.pm_password
+  pm_api_url  = var.pm_api_url
+  pm_user     = var.pm_user
+  pm_password = var.pm_password
 }
 
 resource "proxmox_vm_qemu" "terraform-test" {
-  target_node  = var.target_node
-  hostname     = "terraform-test"
-  ostemplate   = "local:9999/vm-9999-cloudinit.qcow2"
-  password     = "terraform"
+  target_node = var.target_node
+  hostname    = "terraform-test"
+  ostemplate  = "local:9999/vm-9999-cloudinit.qcow2"
+  password    = "terraform"
   unprivileged = true
 
   rootfs {
@@ -27,6 +26,7 @@ resource "proxmox_vm_qemu" "terraform-test" {
   }
 
   network {
+    model  = "virtio"
     name   = "eth0"
     bridge = "vmbr0"
     ip     = "dhcp"
