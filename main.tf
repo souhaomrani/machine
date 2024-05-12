@@ -15,20 +15,19 @@ provider "proxmox" {
 
 resource "proxmox_vm_qemu" "terraform-test" {
   target_node = var.target_node
-  hostname    = "terraform-test"
-  ostemplate  = "local:9999/vm-9999-cloudinit.qcow2"
+  vmid        = 9999
+  name        = "terraform-test"
+  os_type     = "cloud-init"
+  clone       = true
+  full_clone  = false
+  storage     = "local-lvm"
+  template    = "local:vztmpl/almalinux-9-default_20221108_amd64.tar.xz"
   password    = "terraform"
-  unprivileged = true
-
-  rootfs {
-    storage = "local-lvm"
-    size    = "5G"
-  }
-
+  
   network {
     model  = "virtio"
-    name   = "eth0"
     bridge = "vmbr0"
-    ip     = "dhcp"
+    macaddr = "52:54:00:12:34:56"
   }
 }
+
