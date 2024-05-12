@@ -23,11 +23,12 @@ resource "proxmox_vm_qemu" "terraform-test" {
   os_type     = "ubuntu"
   clone       = true
   full_clone  = false
-  storage     = "local-lvm"
+  disk {
+    storage = "local-lvm"
+  }
 
-  # Configuration cloud-init pour la machine virtuelle
-  # Utilisation d'une commande de provisionnement local
-  provisioner "local-exec" {
-    command = "qm set ${self.vmid} --ipconfig0 ip=192.168.1.100/24,gw=192.168.1.1"
+  network {
+    model  = "virtio"
+    bridge = "vmbr0"
   }
 }
