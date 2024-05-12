@@ -20,7 +20,7 @@ resource "proxmox_vm_qemu" "terraform-test" {
   os_type     = "cloud-init"
   clone       = true
   full_clone  = false
-  ostemplate  = "local:9999/vm-9999-cloudinit.qcow2"
+  template    = "ubuntu.robert.local"
   cipassword  = "terraform"
   
   network {
