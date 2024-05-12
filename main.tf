@@ -14,18 +14,18 @@ provider "proxmox" {
 }
 
 resource "proxmox_vm_qemu" "terraform-test" {
-  target_node = var.target_node
+  target_node = "pve"
   vmid        = 9999
-  name        = "terraform-test"
-  os_type     = "cloud-init"
+  name        = "ubuntu.robert.local"
+  os_type     = "ubuntu"  # Assurez-vous d'adapter cette valeur à votre OS
   clone       = true
   full_clone  = false
-  template    = "ubuntu.robert.local"
-  cipassword  = "terraform"
-  
+  storage     = "local-lvm"  # Assurez-vous de spécifier le stockage approprié
+
   network {
     model  = "virtio"
-    bridge = "vmbr0"
-    macaddr = "52:54:00:12:34:56"
+    bridge = "vmbr0"  # Assurez-vous d'utiliser le bon bridge réseau
   }
+
+  # Spécifiez d'autres configurations de la machine virtuelle si nécessaire
 }
