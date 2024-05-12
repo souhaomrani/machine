@@ -20,9 +20,8 @@ resource "proxmox_vm_qemu" "terraform-test" {
   os_type     = "cloud-init"
   clone       = true
   full_clone  = false
-  storage     = "local-lvm"
-  template    = "local:vztmpl/almalinux-9-default_20221108_amd64.tar.xz"
-  password    = "terraform"
+  ostemplate  = "local:vztmpl/almalinux-9-default_20221108_amd64.tar.xz"
+  cipassword  = "terraform"
   
   network {
     model  = "virtio"
@@ -30,4 +29,3 @@ resource "proxmox_vm_qemu" "terraform-test" {
     macaddr = "52:54:00:12:34:56"
   }
 }
-
