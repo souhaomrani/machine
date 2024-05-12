@@ -25,11 +25,9 @@ resource "proxmox_vm_qemu" "terraform-test" {
   full_clone  = false
   storage     = "local-lvm"
 
-  network {
-    model  = "virtio"
-    bridge = "vmbr0"
-  }
-
   # Configuration cloud-init pour la machine virtuelle
-  user_data = file("${path.module}/cloud-init-config.yaml")
+  # Utilisation d'une commande de provisionnement local
+  provisioner "local-exec" {
+    command = "qm set ${self.vmid} --ipconfig0 ip=192.168.1.100/24,gw=192.168.1.1"
+  }
 }
