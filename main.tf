@@ -20,7 +20,7 @@ resource "proxmox_vm_qemu" "terraform-test" {
   os_type     = "cloud-init"
   clone       = true
   full_clone  = false
-  ostemplate  = "local:vztmpl/almalinux-9-default_20221108_amd64.tar.xz"
+  ostemplate  = "local:9999/vm-9999-cloudinit.qcow2"
   cipassword  = "terraform"
   
   network {
