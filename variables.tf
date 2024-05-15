@@ -16,7 +16,7 @@ variable "pm_password" {
 variable "template" {
   description = "Nom du modèle pour la création de la machine virtuelle"
   type        = string
-  default     = "ubuntu.robert.local"  # Remplacez par le nom de votre modèle de machine virtuelle Proxmox
+  default     = "VM 1804"  # Remplacez par le nom de votre modèle de machine virtuelle Proxmox
 }
 
 variable "target_node" {
