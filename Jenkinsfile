@@ -4,17 +4,15 @@ pipeline {
   stages {
     stage('Clone Repository') {
       steps {
-        script {
-          // Cloner le dépôt GitHub
-          git 'https://github.com/souhaomrani/machine.git'
-        }
+        // Étape pour cloner le dépôt Git
+        git 'https://github.com/souhaomrani/machine.git'
       }
     }
 
     stage('Terraform Init') {
       steps {
+        // Étape pour initialiser Terraform
         script {
-          // Initialiser Terraform
           sh 'terraform init'
         }
       }
@@ -22,8 +20,8 @@ pipeline {
 
     stage('Terraform Apply') {
       steps {
+        // Étape pour appliquer les changements Terraform
         script {
-          // Appliquer les changements Terraform
           sh 'terraform apply -auto-approve'
         }
       }
@@ -32,7 +30,7 @@ pipeline {
 
   post {
     always {
-      // Nettoyer Terraform après l'exécution (détruire les ressources)
+      // Étape pour nettoyer les ressources Terraform après exécution
       script {
         sh 'terraform destroy -auto-approve'
       }
