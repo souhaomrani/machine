@@ -1,14 +1,15 @@
 #cloud-config
-hostname: ubuntu.robert.local
-manage_etc_hosts: true
+
 users:
-  - default
-  - name: ubuntu
-    sudo: ALL=(ALL) NOPASSWD:ALL
+  - name: myuser
+    ssh_authorized_keys:
     ssh_authorized_keys:
      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDVBl1465nxXqojqYcCEEOV0Gvoth06DxpHFAEZC+FDnw84QJ7hAGreUhf58FOZb516BjQva+KrEOSNNX4ak12H6WKU1LFrIlGiUxtaWqW136YoGZ6o76YADBVur4Ebj40ARTNWEgBcb2kSrYcMr+sNu2+vam5CgxjmrC1ODrJ8oe5UK1s6A/f/ko6QzzoPSu80gAZAYAL5dcGbPin6hQwFampPdnqkTBU4zhLWRWtV+Cd6liNEwyxm7tPEqc+1pO57828H89zEaa4leqoLOOiKougE74IIe0YtZwcktzEBa7PFIiBoChWtEtjId3Kg2Y5zEVi+ienoJDOpgioVtI4FxgPy/tjhuIGPxkQmjXS2RSa6Lh3YRU7zUU4mR8ay0YN3mptMDXaa0T7QPIwcY2z/7mWNsePrIulYfT1KR8RLbJQD6PdXvPeK/CuqlvL9fqjgAFO9+9N/olUGgyX9NkLXOR9+ctnb6rTyQ33YNjpgxfuiVOeal3WysuXunoYAVrp+cOBYWHRzrkJaE9nouamd6oQgkUl3GURxLHIHDCnltPLE+D2/uK40MnPSMMQu7WFv87tfPArViL03sMPV074JJaS9VElj4hB6z44c4T9nUVEqcgSvYimSkog4ujOC4c8W2a5jLvhsaGxBUZe+SwjW0F0FpIPnBc2STt5Z6dqBRQ== omranisouha3@gmail.com
+packages:
+  - nginx
+  - mysql-server
 
-chpasswd:
-  list: |
-    ubuntu:stephane
-  expire: false
+runcmd:
+  - systemctl restart nginx
+  - systemctl restart mysql
+
