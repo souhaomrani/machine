@@ -8,33 +8,25 @@ terraform {
   }
 }
 
-# Déclaration du fournisseur Proxmox
+# Définition du provider Proxmox
 provider "proxmox" {
-  pm_api_url  = var.pm_api_url
-  pm_user     = var.pm_user
-  pm_password = var.pm_password
+  pm_api_url   = "https://your-proxmox-host:8006/api2/json"
+  pm_user      = "your-proxmox-user"
+  pm_password  = "your-proxmox-password"
+  pm_tls_insecure = true  # Utiliser true si vous ne vérifiez pas le certificat SSL
 }
-# Création de la machine virtuelle
-resource "proxmox_vm_qemu" "terraform-test" {
-  target_node = var.target_node
-  vmid        = 9999
-  name        = var.template
-  os_type     = "ubuntu"
-  
-  # Configuration du disque
-  disk {
-    storage = "local-lvm"
-    size    = "10G"
-  }
-  
-  # Configuration du réseau
-  network {
-    model  = "virtio"
-    bridge = "vmbr0"
-    ip     = "192.168.1.100"    # Adresse IP statique à attribuer à la machine virtuelle
-    netmask = "255.255.255.0"   # Masque de sous-réseau correspondant
-    gateway = "192.168.1.1"     # Passerelle par défaut pour cette interface
-  }
-  
-  # Spécifiez d'autres configurations de la machine virtuelle si nécessaire
+
+# Définition de la machine virtuelle Proxmox avec Cloud-Init
+resource "proxmox_vm_qemu" "my_vm" {
+  name        = "my-vm"
+  target_node = "proxmox-node-1"  # Remplacez par le nœud Proxmox cible
+  clone       = "1804"  # Remplacez par l'ID du template à cloner
+
+  # Configuration Cloud-Init
+  clone_wait_for_network = true
+  cloudinit = file("cloud-init.yaml")  # Fichier Cloud-Init
+
+  # Autres configurations de la VM
+  memory = 1024
+  cores  = 2
 }
