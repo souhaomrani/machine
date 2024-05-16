@@ -20,7 +20,7 @@ resource "proxmox_vm_qemu" "my_vm" {
   name               = "my-vm"
   target_node        = "pve"  # Utilisez le nom du nœud Proxmox cible
 
-  clone              = var.ubuntu.robert.local  # Utilisez le nom du template à cloner défini dans les variables
+  clone              = "VM 1804"  # Utilisez le nom du template à cloner défini dans les variables
 
   # Configuration Cloud-Init
   provisioner "file" {
