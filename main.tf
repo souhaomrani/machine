@@ -17,10 +17,10 @@ provider "proxmox" {
 }
 # Définition de la machine virtuelle Proxmox avec Cloud-Init
 resource "proxmox_vm_qemu" "my_vm" {
-  name        = "my-vm"
-  target_node = "pve"  # Utilisez le nom du nœud Proxmox cible
+  name               = "my-vm"
+  target_node        = "pve"  # Utilisez le nom du nœud Proxmox cible
 
-  clone       = var.template  # Utilisez le nom du template à cloner défini dans les variables
+  clone              = var.ubuntu.robert.local  # Utilisez le nom du template à cloner défini dans les variables
 
   # Configuration Cloud-Init
   provisioner "file" {
