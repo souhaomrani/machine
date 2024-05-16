@@ -24,10 +24,9 @@ resource "proxmox_vm_qemu" "my_vm" {
   clone       = var.template  # Utilisez le nom du template à cloner défini dans les variables
 
   # Configuration Cloud-Init
-  provision {
-    command = "clone"
-    clone   = {
-      full = true
+  cloudinit {
+    network_config {
+      content = file("cloud-init.yaml")  # Fichier Cloud-Init
     }
   }
 
