@@ -10,21 +10,25 @@ terraform {
 
 # Définition du provider Proxmox
 provider "proxmox" {
-  pm_api_url   = "https://your-proxmox-host:8006/api2/json"
-  pm_user      = "your-proxmox-user"
-  pm_password  = "your-proxmox-password"
-  pm_tls_insecure = true  # Utiliser true si vous ne vérifiez pas le certificat SSL
+  pm_api_url      = var.pm_api_url
+  pm_user         = var.pm_user
+  pm_password     = var.pm_password
+  pm_tls_insecure = true  # À utiliser avec précaution, ne pas vérifier le certificat SSL
 }
 
 # Définition de la machine virtuelle Proxmox avec Cloud-Init
 resource "proxmox_vm_qemu" "my_vm" {
   name        = "my-vm"
-  target_node = "pve"  # Remplacez par le nœud Proxmox cible
-  clone       = "1804"  # Remplacez par l'ID du template à cloner
+  target_node = var.target_node
+  clone       = var.VM 1804  # Utilisez le nom du template à cloner
 
   # Configuration Cloud-Init
-  clone_wait_for_network = true
-  cloudinit = file("cloud-init.yaml")  # Fichier Cloud-Init
+  provision {
+    command = "clone"
+    clone   = {
+      full = true
+    }
+  }
 
   # Autres configurations de la VM
   memory = 1024
