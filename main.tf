@@ -10,12 +10,11 @@ terraform {
 
 # Définition du provider Proxmox
 provider "proxmox" {
-  pm_api_url      = var.pm_api_url
-  pm_user         = var.pm_user
-  pm_password     = var.pm_password
-  pm_tls_insecure = true  # À utiliser avec précaution, ne pas vérifier le certificat SSL
+  pm_api_url         = var.pm_api_url
+  pm_api_token_id    = var.pm_user
+  pm_api_token_secret = var.pm_password
+  pm_tls_insecure    = true
 }
-
 # Définition de la machine virtuelle Proxmox avec Cloud-Init
 resource "proxmox_vm_qemu" "my_vm" {
   name        = "my-vm"
