@@ -19,9 +19,8 @@ provider "proxmox" {
 resource "proxmox_vm_qemu" "my_vm" {
   name               = "my-vm"
   target_node        = "pve"  # Utilisez le nom du nœud Proxmox cible
-
   clone              = "VM 1804"  # Utilisez le nom du template à cloner défini dans les variables
-
+  guest_agent        = true
   # Configuration Cloud-Init
   provisioner "file" {
     source      = "cloud-init.yaml"
